@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>HiPee Offline</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="core.js"></script>
+  <script defer src="i18n.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main>
+    <header><div><p class="eyebrow">YOUR DESK COMPANION</p><h1>HiPee <span>Offline</span></h1><p class="muted">A direct Bluetooth connection. Your data stays here.</p></div><div class="language-tools"><span class="badge">LOCAL ONLY</span><label for="language">Language</label><select id="language"><option value="uk">Українська</option><option value="en">English</option></select></div></header>
+    <div id="error" role="alert" hidden></div>
+    <section class="connection panel">
+      <div><span id="dot" class="dot"></span><strong id="connection">Not connected</strong><p id="device" class="muted">Turn on your HiPee and close its phone app.</p></div>
+      <div class="actions"><button id="connect" class="primary">Connect HiPee</button><button id="disconnect" disabled>Disconnect</button></div>
+    </section>
+    <section class="grid">
+      <div class="panel monitor">
+        <p class="eyebrow">LIVE POSTURE MATCH <span id="demoLabel" hidden>· SIMULATED</span></p>
+        <div class="reading"><span id="score">—</span><span class="unit">/ 100</span></div>
+        <h2 id="posture" aria-live="polite">Ready when you are</h2>
+        <p id="explanation" class="muted">Connect, then teach the app your upright and slouched postures.</p>
+        <div class="meter" role="meter" aria-label="Similarity to trained slouch" aria-valuemin="0" aria-valuemax="100" id="meter"><div id="fill"></div></div>
+        <div class="endpoints"><span>Upright example</span><span>Slouch example</span></div>
+        <canvas id="chart" width="700" height="170" aria-label="Recent posture match history"></canvas>
+        <p class="small muted">Experimental matching, not degrees. Test both postures after calibration. Unfamiliar movement may not be classified correctly.</p>
+      </div>
+      <div class="panel settings">
+        <p class="eyebrow">MAKE IT YOURS</p><h2>Teach your posture</h2>
+        <p id="calibrationHint" class="muted">Three short captures: upright, slouched, then upright again. Keep the sensor in the same position.</p>
+        <button id="calibrate" disabled>Start guided calibration</button>
+        <p id="progress" role="status">No calibration yet</p>
+        <hr><h3>Desktop reminder</h3>
+        <label class="check"><input id="alerts" type="checkbox"> Show an on-screen reminder</label>
+        <label for="threshold">Slouch match threshold <output id="thresholdValue">65</output></label>
+        <input id="threshold" type="range" min="35" max="95" value="65">
+        <label for="delay">Hold time <output id="delayValue">5 seconds</output></label>
+        <input id="delay" type="range" min="2" max="30" value="5">
+        <p class="small muted">Keep this window open. Recalibrate after moving the device or reconnecting.</p>
+      </div>
+    </section>
+    <section class="panel diagnostics">
+      <div class="row"><div><h2>Connection details</h2><p id="samples" class="muted">Waiting for sensor data</p></div><button id="export">Save packet log</button></div>
+      <details><summary>Live packets &amp; troubleshooting</summary><p class="muted small">If you connect but receive no data, charge the device, close its phone app, and reconnect. Firmware support is unverified. A valid 0x35 stream is needed for calibration.</p><pre id="log" aria-label="Bluetooth packet log">No packets yet.</pre></details>
+      <div class="row footer"><label class="check small"><input type="checkbox" id="showAll"> Show all Bluetooth devices in picker</label><button id="demo" class="subtle">Try a simulated demo</button></div>
+    </section>
+    <footer class="small muted">No account · No server · No internet requests · Logs saved only when you choose</footer>
+  </main>
+  <aside id="reminder" hidden role="alert"><strong>Time to sit upright</strong><span>Your posture matches the slouch example.</span><button id="dismiss">Dismiss for 30 seconds</button></aside>
+</body>
+</html>
